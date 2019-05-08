@@ -17,7 +17,17 @@ namespace Microsoft.Oryx.BuildImage.Tests
     public abstract class SampleAppsTestBase
     {
         private readonly ITestOutputHelper _output;
+
+        /// <summary>
+        /// The directory containing the samples on the machine where these tests are run.
+        /// </summary>
         protected readonly string _hostSamplesDir = Path.Combine(Directory.GetCurrentDirectory(), "SampleApps");
+
+        /// <summary>
+        /// The samples directory in the container instance of the 'oryxtests/build' image
+        /// </summary>
+        protected readonly string _containerSamplesDir = Path.Combine("tmp", "tests", "sampleApps");
+
         protected readonly DockerCli _dockerCli;
 
         public static EnvironmentVariable CreateAppNameEnvVar(string sampleAppName) =>

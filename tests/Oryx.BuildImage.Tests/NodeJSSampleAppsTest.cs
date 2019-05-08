@@ -16,16 +16,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
 {
     public class NodeJSSampleAppsTest : SampleAppsTestBase
     {
-        private static readonly string SampleAppName = "webfrontend";
-
-        private DockerVolume CreateWebFrontEndVolume() => DockerVolume.Create(
-            Path.Combine(_hostSamplesDir, "nodejs", SampleAppName));
-
-        public NodeJSSampleAppsTest(ITestOutputHelper output) :
-            base(output, new DockerCli(new EnvironmentVariable[]
-            {
-                new EnvironmentVariable(LoggingConstants.AppServiceAppNameEnvironmentVariableName, SampleAppName)
-            }))
+        public NodeJSSampleAppsTest(ITestOutputHelper output) : base(output, new DockerCli())
         {
         }
 
@@ -33,8 +24,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
         public void GeneratesScript_AndBuilds()
         {
             // Arrange
-            var volume = CreateWebFrontEndVolume();
-            var appDir = volume.ContainerDir;
+            var appName = "webfrontend";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/webfrontend-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -i /tmp/int -o {appOutputDir}")
@@ -45,7 +36,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var result = _dockerCli.Run(new DockerRunArguments
             {
                 ImageId = Settings.BuildImageName,
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -63,8 +53,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
         public void Builds_AndCopiesContentToOutputDirectory_Recursively()
         {
             // Arrange
-            var volume = CreateWebFrontEndVolume();
-            var appDir = volume.ContainerDir;
+            var appName = "webfrontend";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/webfrontend-output";
             var subDir = Guid.NewGuid();
             var script = new ShellScriptBuilder()
@@ -82,7 +72,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var result = _dockerCli.Run(new DockerRunArguments
             {
                 ImageId = Settings.BuildImageName,
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -100,8 +89,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
         public void Build_CopiesOutput_ToNestedOutputDirectory()
         {
             // Arrange
-            var volume = CreateWebFrontEndVolume();
-            var appDir = volume.ContainerDir;
+            var appName = "webfrontend";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var nestedOutputDir = "/tmp/output/subdir1";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -i /tmp/int -o {nestedOutputDir}")
@@ -112,7 +101,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var result = _dockerCli.Run(new DockerRunArguments
             {
                 ImageId = Settings.BuildImageName,
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -130,8 +118,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
         public void BuildNodeApp_ConfigureAppInsights__WithDefaultNodeVersion_AIEnvironmentVariableSet()
         {
             // Arrange
-            var volume = CreateWebFrontEndVolume();
-            var appDir = volume.ContainerDir;
+            var appName = "webfrontend";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var nestedOutputDir = "/tmp/output";
             var script = new ShellScriptBuilder()
                 .AddCommand("printenv")
@@ -150,7 +138,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
                 {
                     new EnvironmentVariable("APPINSIGHTS_INSTRUMENTATIONKEY", "xyz")
                 },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -170,8 +157,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
         public void BuildNodeApp_ConfigureAppInsights_WithCorrectNodeVersion_AIEnvironmentVariableSet(string version)
         {
             // Arrange
-            var volume = CreateWebFrontEndVolume();
-            var appDir = volume.ContainerDir;
+            var appName = "webfrontend";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var spcifyNodeVersionCommand = "-l nodejs --language-version=" + version;
             var nestedOutputDir = "/tmp/output";
             var script = new ShellScriptBuilder()
@@ -191,7 +178,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
                 {
                     new EnvironmentVariable("APPINSIGHTS_INSTRUMENTATIONKEY", "xyz")
                 },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -212,8 +198,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
             string version)
         {
             // Arrange
-            var volume = CreateWebFrontEndVolume();
-            var appDir = volume.ContainerDir;
+            var appName = "webfrontend";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var nestedOutputDir = "/tmp/output";
             var spcifyNodeVersionCommand = "-l nodejs --language-version=" + version;
             var script = new ShellScriptBuilder()
@@ -232,7 +218,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
                 {
                     new EnvironmentVariable("APPINSIGHTS_INSTRUMENTATIONKEY", "xyz")
                 },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -253,8 +238,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
             string version)
         {
             // Arrange
-            var volume = CreateWebFrontEndVolume();
-            var appDir = volume.ContainerDir;
+            var appName = "webfrontend";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var nestedOutputDir = "/tmp/output";
             var spcifyNodeVersionCommand = "-l nodejs --language-version=" + version;
             var script = new ShellScriptBuilder()
@@ -269,7 +254,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var result = _dockerCli.Run(new DockerRunArguments
             {
                 ImageId = Settings.BuildImageName,
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -287,8 +271,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
         public void Build_ReplacesContentInDestinationDir_WhenDestinationDirIsNotEmpty()
         {
             // Arrange
-            var volume = CreateWebFrontEndVolume();
-            var appDir = volume.ContainerDir;
+            var appName = "webfrontend";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/output";
             var script = new ShellScriptBuilder()
                 // Pre-populate the output directory with content
@@ -306,7 +290,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var result = _dockerCli.Run(new DockerRunArguments
             {
                 ImageId = Settings.BuildImageName,
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -451,8 +434,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
         public void GeneratesScript_AndBuilds_WhenExplicitLanguageAndVersion_AreProvided()
         {
             // Arrange
-            var volume = CreateWebFrontEndVolume();
-            var appDir = volume.ContainerDir;
+            var appName = "webfrontend";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/webfrontend-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -i /tmp/int -o {appOutputDir} -l nodejs --language-version 8.2.1")
@@ -463,7 +446,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var result = _dockerCli.Run(new DockerRunArguments
             {
                 ImageId = Settings.BuildImageName,
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -481,8 +463,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
         public void CanBuild_UsingScriptGeneratedBy_ScriptOnlyOption()
         {
             // Arrange
-            var volume = CreateWebFrontEndVolume();
-            var appDir = volume.ContainerDir;
+            var appName = "webfrontend";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/webfrontend-output";
             var generatedScript = "/tmp/build.sh";
             var tempDir = "/tmp/" + Guid.NewGuid();
@@ -498,7 +480,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var result = _dockerCli.Run(new DockerRunArguments
             {
                 ImageId = Settings.BuildImageName,
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -516,8 +497,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
         public void CanBuild_UsingScriptGeneratedBy_ScriptOnlyOption_AndWhenExplicitLanguageAndVersion_AreProvided()
         {
             // Arrange
-            var volume = CreateWebFrontEndVolume();
-            var appDir = volume.ContainerDir;
+            var appName = "webfrontend";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/webfrontend-output";
             var generatedScript = "/tmp/build.sh";
             var tempDir = "/tmp/" + Guid.NewGuid();
@@ -533,7 +514,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var result = _dockerCli.Run(new DockerRunArguments
             {
                 ImageId = Settings.BuildImageName,
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -551,8 +531,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
         public void GeneratesScript_AndBuilds_UsingSuppliedIntermediateDir()
         {
             // Arrange
-            var volume = CreateWebFrontEndVolume();
-            var appDir = volume.ContainerDir;
+            var appName = "webfrontend";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var intermediateDir = "/tmp/app-intermediate";
             var appOutputDir = "/tmp/webfrontend-output";
             var script = new ShellScriptBuilder()
@@ -564,7 +544,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var result = _dockerCli.Run(new DockerRunArguments
             {
                 ImageId = Settings.BuildImageName,
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -582,8 +561,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
         public void GeneratesScriptAndBuilds_WhenSourceAndDestinationFolders_AreSame()
         {
             // Arrange
-            var volume = CreateWebFrontEndVolume();
-            var appDir = volume.ContainerDir;
+            var appName = "webfrontend";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir}")
                 .AddDirectoryExistsCheck($"{appDir}/node_modules")
@@ -593,7 +572,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var result = _dockerCli.Run(new DockerRunArguments
             {
                 ImageId = Settings.BuildImageName,
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -611,8 +589,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
         public void GeneratesScriptAndBuilds_WhenDestination_IsSubDirectoryOfSource()
         {
             // Arrange
-            var volume = CreateWebFrontEndVolume();
-            var appDir = volume.ContainerDir;
+            var appName = "webfrontend";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = $"{appDir}/output";
             var buildScript = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -i /tmp/int -o {appOutputDir}")
@@ -623,7 +601,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var result = _dockerCli.Run(new DockerRunArguments
             {
                 ImageId = Settings.BuildImageName,
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", buildScript }
             });
@@ -641,7 +618,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
         public void Build_ExecutesPreAndPostBuildScripts_WithinBenvContext()
         {
             // Arrange
-            var volume = CreateWebFrontEndVolume();
+            var appName = "webfrontend";
+            var volume = DockerVolume.Create(Path.Combine(_hostSamplesDir, "nodejs", appName));
             using (var sw = File.AppendText(Path.Combine(volume.MountedHostDir, "build.env")))
             {
                 sw.NewLine = "\n";
@@ -672,7 +650,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
                     waitTimeForExit: null);
             }
 
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -l nodejs --language-version 6")
                 .ToString();
@@ -707,8 +685,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
             // related to zipping files on a folder which is volume mounted.
 
             // Arrange
-            var volume = CreateWebFrontEndVolume();
-            var appDir = volume.ContainerDir;
+            var appName = "webfrontend";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/webfrontend-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -i /tmp/int -o {appOutputDir} -p compress_node_modules=tar-gz")
@@ -720,7 +698,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var result = _dockerCli.Run(new DockerRunArguments
             {
                 ImageId = Settings.BuildImageName,
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -742,8 +719,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
             // related to zipping files on a folder which is volume mounted.
 
             // Arrange
-            var volume = CreateWebFrontEndVolume();
-            var appDir = volume.ContainerDir;
+            var appName = "webfrontend";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/webfrontend-output";
             var buildScript = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -i /tmp/int -o {appOutputDir} -p compress_node_modules=zip")
@@ -758,7 +735,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var result = _dockerCli.Run(new DockerRunArguments
             {
                 ImageId = Settings.BuildImageName,
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", buildScript }
             });
@@ -776,8 +752,8 @@ namespace Microsoft.Oryx.BuildImage.Tests
         public void BuildsNodeApp_AndDoesNotZipNodeModules_IfZipNodeModulesIsFalse()
         {
             // Arrange
-            var volume = CreateWebFrontEndVolume();
-            var appDir = volume.ContainerDir;
+            var appName = "webfrontend";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/webfrontend-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -i /tmp/int -o {appOutputDir}")
@@ -789,7 +765,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var result = _dockerCli.Run(new DockerRunArguments
             {
                 ImageId = Settings.BuildImageName,
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });

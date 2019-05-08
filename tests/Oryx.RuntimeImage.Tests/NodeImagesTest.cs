@@ -20,6 +20,11 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
         private readonly string _tempRootDir;
         protected readonly HttpClient _httpClient = new HttpClient();
 
+        /// <summary>
+        /// The samples directory in the container instance of the 'oryxtests/build' image
+        /// </summary>
+        private readonly string _containerSamplesDir = Path.Combine("tmp", "tests", "sampleApps");
+
         public NodeImagesTest(ITestOutputHelper output, TestTempDirTestFixture testTempDirTestFixture) : base(output)
         {
             _hostSamplesDir = Path.Combine(Directory.GetCurrentDirectory(), "SampleApps");
@@ -225,15 +230,12 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
         [MemberData(nameof(TestValueGenerator.GetNodeVersions_SupportPm2), MemberType = typeof(TestValueGenerator))]
         public async Task RunNodeAppUsingProcessJson(string nodeVersion)
         {
-
             var appName = "express-process-json";
-            var hostDir = Path.Combine(_hostSamplesDir, "nodejs", appName);
-            var volume = DockerVolume.Create(hostDir);
-            var dir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             int containerPort = 80;
 
             var runAppScript = new ShellScriptBuilder()
-                .AddCommand($"cd {dir}/app")
+                .AddCommand($"cd {appDir}/app")
                 .AddCommand("npm install")
                 .AddCommand("cd ..")
                 .AddCommand($"oryx -bindPort {containerPort}")
@@ -243,7 +245,7 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
             await EndToEndTestHelper.RunAndAssertAppAsync(
                 imageName: $"oryxdevms/node-{nodeVersion}",
                 output: _output,
-                volumes: new List<DockerVolume> { volume },
+                volumes: null,
                 environmentVariables: null,
                 containerPort,
                 link: null,
@@ -262,15 +264,12 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
         [MemberData(nameof(TestValueGenerator.GetNodeVersions_SupportPm2), MemberType = typeof(TestValueGenerator))]
         public async Task RunNodeAppUsingConfigYml(string nodeVersion)
         {
-
             var appName = "express-config-yaml";
-            var hostDir = Path.Combine(_hostSamplesDir, "nodejs", appName);
-            var volume = DockerVolume.Create(hostDir);
-            var dir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             int containerPort = 80;
 
             var runAppScript = new ShellScriptBuilder()
-                .AddCommand($"cd {dir}/app")
+                .AddCommand($"cd {appDir}/app")
                 .AddCommand("npm install")
                 .AddCommand("cd ..")
                 .AddCommand($"oryx -bindPort {containerPort} -userStartupCommand config.yml")
@@ -280,7 +279,7 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
             await EndToEndTestHelper.RunAndAssertAppAsync(
                 imageName: $"oryxdevms/node-{nodeVersion}",
                 output: _output,
-                volumes: new List<DockerVolume> { volume },
+                volumes: null,
                 environmentVariables: null,
                 containerPort,
                 link: null,
@@ -299,15 +298,12 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
         [MemberData(nameof(TestValueGenerator.GetNodeVersions_SupportPm2), MemberType = typeof(TestValueGenerator))]
         public async Task RunNodeAppUsingConfigJs(string nodeVersion)
         {
-
             var appName = "express-config-js";
-            var hostDir = Path.Combine(_hostSamplesDir, "nodejs", appName);
-            var volume = DockerVolume.Create(hostDir);
-            var dir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             int containerPort = 80;
 
             var runAppScript = new ShellScriptBuilder()
-                .AddCommand($"cd {dir}/app")
+                .AddCommand($"cd {appDir}/app")
                 .AddCommand("npm install")
                 .AddCommand("cd ..")
                 .AddCommand($"oryx -bindPort {containerPort}")
@@ -317,7 +313,7 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
             await EndToEndTestHelper.RunAndAssertAppAsync(
                 imageName: $"oryxdevms/node-{nodeVersion}",
                 output: _output,
-                volumes: new List<DockerVolume> { volume },
+                volumes: null,
                 environmentVariables: null,
                 containerPort,
                 link: null,
@@ -339,13 +335,11 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
         public async Task RunNodeAppUsingProcessJson_withDebugging(string nodeVersion)
         {
             var appName = "express-process-json";
-            var hostDir = Path.Combine(_hostSamplesDir, "nodejs", appName);
-            var volume = DockerVolume.Create(hostDir);
-            var dir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             int containerDebugPort = 8080;
 
             var runAppScript = new ShellScriptBuilder()
-                .AddCommand($"cd {dir}/app")
+                .AddCommand($"cd {appDir}/app")
                 .AddCommand("npm install")
                 .AddCommand("cd ..")
                 .AddCommand($"oryx -remoteDebug -debugPort={containerDebugPort}")
@@ -355,7 +349,7 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
             await EndToEndTestHelper.RunAndAssertAppAsync(
                 imageName: $"oryxdevms/node-{nodeVersion}",
                 output: _output,
-                volumes: new List<DockerVolume> { volume },
+                volumes: null,
                 environmentVariables: null,
                 port: containerDebugPort,
                 link: null,
@@ -384,9 +378,8 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
 
             // Arrange
             var imageName = string.Concat("oryxdevms/node-", nodeVersion);
-            var hostSamplesDir = Path.Combine(Directory.GetCurrentDirectory(), "SampleApps");
-            var volume = DockerVolume.Create(Path.Combine(hostSamplesDir, "nodejs", "linxnodeexpress"));
-            var appDir = volume.ContainerDir;
+            var appName = "linxnodeexpress";
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var manifestFileContent = "injectedAppInsight=\"True\"";
             var aiNodesdkLoaderContent = @"try {
                 var appInsights = require('applicationinsights');  
@@ -414,7 +407,7 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
             await EndToEndTestHelper.RunAndAssertAppAsync(
                 imageName: $"oryxdevms/node-{nodeVersion}",
                 output: _output,
-                volumes: new List<DockerVolume> { volume },
+                volumes: null,
                 environmentVariables: null,
                 port: containerDebugPort,
                 link: null,

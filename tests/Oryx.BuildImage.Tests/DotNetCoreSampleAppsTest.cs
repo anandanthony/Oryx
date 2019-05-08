@@ -18,23 +18,21 @@ namespace Microsoft.Oryx.BuildImage.Tests
 {
     public class DotNetCoreSampleAppsTest : SampleAppsTestBase
     {
+        private DockerVolume CreateSampleAppVolume(string sampleAppName) =>
+            DockerVolume.Create(Path.Combine(_hostSamplesDir, "DotNetCore", sampleAppName));
+
         public DotNetCoreSampleAppsTest(ITestOutputHelper output) : base(output)
         {
         }
-
-        private DockerVolume CreateSampleAppVolume(string sampleAppName) =>
-            DockerVolume.Create(Path.Combine(_hostSamplesDir, "DotNetCore", sampleAppName));
 
         [Fact]
         public void Builds_NetCore11App_UsingNetCore11_DotnetSdkVersion()
         {
             // Arrange
             var appName = "NetCoreApp11WebApp";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
             var appOutputDir = "/tmp/NetCoreApp11WebApp-output";
             var script = new ShellScriptBuilder()
-                .AddBuildCommand($"{appDir} -o {appOutputDir}")
+                .AddBuildCommand($"{_containerSamplesDir}/{appName} -o {appOutputDir}")
                 .AddFileExistsCheck($"{appOutputDir}/{appName}.dll")
                 .AddFileExistsCheck($"{appOutputDir}/{ScriptGenerator.Constants.ManifestFileName}")
                 .ToString();
@@ -44,7 +42,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -64,10 +61,9 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "NetCoreApp11WebApp";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var script = new ShellScriptBuilder()
-                .AddBuildCommand($"{appDir}")
+                .AddBuildCommand(appDir)
                 .AddFileExistsCheck($"{appDir}/{DotnetCoreConstants.OryxOutputPublishDirectory}/{appName}.dll")
                 .ToString();
 
@@ -76,7 +72,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -96,11 +91,9 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "NetCoreApp21WebApp";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
             var appOutputDir = "/tmp/NetCoreApp21WebApp-output";
             var script = new ShellScriptBuilder()
-                .AddBuildCommand($"{appDir} -o {appOutputDir}")
+                .AddBuildCommand($"{_containerSamplesDir}/{appName} -o {appOutputDir}")
                 .AddFileExistsCheck($"{appOutputDir}/{appName}.dll")
                 .ToString();
 
@@ -109,7 +102,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -129,10 +121,9 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "NetCoreApp21WebApp";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var script = new ShellScriptBuilder()
-                .AddBuildCommand($"{appDir}")
+                .AddBuildCommand(appDir)
                 .AddFileExistsCheck($"{appDir}/{DotnetCoreConstants.OryxOutputPublishDirectory}/{appName}.dll")
                 .ToString();
 
@@ -141,7 +132,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -161,11 +151,9 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "NetCoreApp22WebApp";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
             var appOutputDir = "/tmp/NetCoreApp22WebApp-output";
             var script = new ShellScriptBuilder()
-                .AddBuildCommand($"{appDir} -o {appOutputDir}")
+                .AddBuildCommand($"{_containerSamplesDir}/{appName} -o {appOutputDir}")
                 .AddFileExistsCheck($"{appOutputDir}/{appName}.dll")
                 .ToString();
 
@@ -174,7 +162,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -194,11 +181,9 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "NetCoreApp30.WebApp";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
             var appOutputDir = "/tmp/NetCoreApp30WebApp-output";
             var script = new ShellScriptBuilder()
-                .AddBuildCommand($"{appDir} -o {appOutputDir}")
+                .AddBuildCommand($"{_containerSamplesDir}/{appName} -o {appOutputDir}")
                 .AddFileExistsCheck($"{appOutputDir}/{appName}.dll")
                 .ToString();
 
@@ -207,7 +192,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -229,8 +213,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "NetCoreApp22WebApp";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir}")
                 .AddFileExistsCheck($"{appDir}/{DotnetCoreConstants.OryxOutputPublishDirectory}/{appName}.dll")
@@ -241,7 +224,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -601,13 +583,13 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "dotnetreact";
-            var hostDir = Path.Combine(_hostSamplesDir, "multilanguage", appName);
-            var volume = DockerVolume.Create(hostDir);
-            var appDir = volume.ContainerDir;
+            var hostDir = Path.Combine(_containerSamplesDir, "multilanguage", appName);
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = $"{appDir}/myoutputdir";
             var buildScript = new ShellScriptBuilder()
                 .AddCommand("export ENABLE_MULTIPLATFORM_BUILD=true")
-                .AddBuildCommand($"{appDir} -o {appOutputDir} -l dotnet --language-version 2.2")
+                .AddBuildCommand(
+                $"{appDir} -o {appOutputDir} -l dotnet --language-version 2.2")
                 .ToString();
 
             // Act
@@ -615,7 +597,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", buildScript }
             });
@@ -635,14 +616,12 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "NetCoreApp21WebApp";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
             var appOutputDir = "/tmp/NetCoreApp21WebApp-output";
             var extraFile = $"{Guid.NewGuid().ToString("N")}.txt";
             var script = new ShellScriptBuilder()
                 .CreateDirectory($"{appOutputDir}")
                 .AddCommand($"echo > {appOutputDir}/{extraFile}")
-                .AddBuildCommand($"{appDir} -o {appOutputDir}")
+                .AddBuildCommand($"{_containerSamplesDir}/{appName} -o {appOutputDir}")
                 .AddFileExistsCheck($"{appOutputDir}/{appName}.dll")
                 .AddFileExistsCheck($"{appOutputDir}/{extraFile}")
                 .ToString();
@@ -652,7 +631,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });

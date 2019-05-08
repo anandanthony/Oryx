@@ -24,15 +24,14 @@ namespace Microsoft.Oryx.BuildImage.Tests
         }
 
         private DockerVolume CreateSampleAppVolume(string sampleAppName) =>
-            DockerVolume.Create(Path.Combine(_hostSamplesDir, "python", sampleAppName));
+            DockerVolume.Create(Path.Combine(_containerSamplesDir, "python", sampleAppName));
 
         [Fact]
         public void GeneratesScript_AndBuilds()
         {
             // Arrange
             var appName = "flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir}")
@@ -43,7 +42,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -65,8 +63,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir} -p packagedir={PackagesDirectory}")
@@ -78,7 +75,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -101,8 +97,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "shapely-flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir} -l python --language-version {version}")
@@ -113,7 +108,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -132,8 +126,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var subDir = Guid.NewGuid();
             var script = new ShellScriptBuilder()
@@ -151,7 +144,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -170,8 +162,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var nestedOutputDir = "/tmp/app-output/subdir1";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {nestedOutputDir}")
@@ -183,7 +174,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -202,8 +192,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir}")
                 .AddDirectoryExistsCheck($"{appDir}/pythonenv3.7")
@@ -214,7 +203,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -233,8 +221,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = $"{appDir}/output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir}")
@@ -246,7 +233,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -265,8 +251,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 // Pre-populate the output directory with content
@@ -285,7 +270,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -308,8 +292,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
             // Arrange
             var langVersion = PythonVersions.Python37Version;
             var appName = "python2-flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var generatedScript = "/tmp/build.sh";
             var appOutputDir = "/tmp/app-output";
             var tempDir = "/tmp/" + Guid.NewGuid();
@@ -325,7 +308,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -345,8 +327,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = $"{appDir}/output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir} -l python --language-version {Settings.Python36Version}")
@@ -357,7 +338,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -379,8 +359,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var generatedScript = "/tmp/build.sh";
             var appOutputDir = "/tmp/app-output";
             var tempDir = "/tmp/" + Guid.NewGuid();
@@ -398,7 +377,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -417,8 +395,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var generatedScript = "/tmp/build.sh";
             var appOutputDir = "/tmp/app-output";
             var tempDir = "/tmp/" + Guid.NewGuid();
@@ -434,7 +411,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -458,8 +434,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
             // Arrange
             var langVersion = Settings.Python27Version;
             var appName = "python2-flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var generatedScript = "/tmp/build.sh";
             var appOutputDir = "/tmp/app-output";
             var tempDir = "/tmp/" + Guid.NewGuid();
@@ -476,7 +451,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -495,8 +469,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appIntermediateDir = "/tmp/app-intermediate";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
@@ -509,7 +482,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -529,8 +501,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
             // Arrange
             var virtualEnvironmentName = "pythonenv3.7";
             var appName = "flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -i /tmp/int -o {appOutputDir}")
@@ -543,7 +514,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -568,8 +538,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
             // Arrange
             var virtualEnvironmentName = "myenv";
             var appName = "flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand(
@@ -584,7 +553,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -607,8 +575,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
             // Arrange
             var virtualEnvironmentName = "myenv";
             var appName = "flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand(
@@ -623,7 +590,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -646,8 +612,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand(
@@ -660,7 +625,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -684,8 +648,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "django-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var scriptBuilder = new ShellScriptBuilder();
             if (string.IsNullOrEmpty(disableCollectStatic))
@@ -706,7 +669,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -728,8 +690,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "django-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddCommand($"export {EnvironmentSettingsKeys.DisableCollectStatic}={disableCollectStatic}")
@@ -745,7 +706,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -792,7 +752,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
                     workingDirectory: null,
                     waitTimeForExit: null);
             }
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir}")
@@ -850,7 +810,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
                     workingDirectory: null,
                     waitTimeForExit: null);
             }
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir}")
@@ -913,7 +873,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
                     workingDirectory: null,
                     waitTimeForExit: null);
             }
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir}")
@@ -982,7 +942,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
                     workingDirectory: null,
                     waitTimeForExit: null);
             }
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir}")
@@ -1033,7 +993,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
                 sw.WriteLine("POST_BUILD_COMMAND=\"echo from post-build command\"");
             }
 
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o /tmp/output")
                 .ToString();
@@ -1067,8 +1027,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "django-realworld-example-app";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand(
@@ -1083,7 +1042,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
                 {
                     CreateAppNameEnvVar(appName),
                 },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -1135,7 +1093,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
                     workingDirectory: null,
                     waitTimeForExit: null);
             }
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir} -l python --language-version {version}")

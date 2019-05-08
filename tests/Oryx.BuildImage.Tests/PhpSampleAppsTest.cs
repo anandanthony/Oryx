@@ -4,7 +4,6 @@
 // --------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.IO;
 using Microsoft.Oryx.Common;
 using Microsoft.Oryx.Tests.Common;
 using Xunit;
@@ -18,16 +17,12 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
         }
 
-        private DockerVolume CreateSampleAppVolume(string sampleAppName) =>
-            DockerVolume.Create(Path.Combine(_hostSamplesDir, "php", sampleAppName));
-
         [Fact]
         public void GeneratesScript_AndBuilds_TwigExample()
         {
             // Arrange
             var appName = "twig-example";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir}")
@@ -38,7 +33,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });
@@ -58,8 +52,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "twig-example";
-            var volume = CreateSampleAppVolume(appName);
-            var appDir = volume.ContainerDir;
+            var appDir = $"{_containerSamplesDir}/{appName}";
             var script = new ShellScriptBuilder()
                 .AddCommand($"rm {appDir}/composer.json")
                 .AddBuildCommand($"{appDir} --language php --language-version {PhpVersions.Php73Version}")
@@ -70,7 +63,6 @@ namespace Microsoft.Oryx.BuildImage.Tests
             {
                 ImageId = Settings.BuildImageName,
                 EnvironmentVariables = new List<EnvironmentVariable> { CreateAppNameEnvVar(appName) },
-                Volumes = new List<DockerVolume> { volume },
                 CommandToExecuteOnRun = "/bin/bash",
                 CommandArguments = new[] { "-c", script }
             });

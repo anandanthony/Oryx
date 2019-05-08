@@ -9,3 +9,6 @@ src/github.com/
 pkg/
 bin/
 artifacts/
+
+# Required for building the build image for tests
+!tests/SampleApps
