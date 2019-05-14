@@ -100,7 +100,7 @@ then
 	{{ for excludedDir in DirectoriesToExcludeFromCopyToBuildOutputDir }}
 	excludedDirectories+=" --exclude {{ excludedDir }}"
 	{{ end }}
-	rsync -rtE --links $excludedDirectories . "$DESTINATION_DIR"
+	rsync -r --links $excludedDirectories . "$DESTINATION_DIR"
 	ELAPSED_TIME=$(($SECONDS - $START_TIME))
 	echo "Done in $ELAPSED_TIME sec(s)."
 fi
