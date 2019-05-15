@@ -16,6 +16,7 @@ type DotnetCoreStartupScriptGenerator struct {
 	RunFromPath        string
 	UserStartupCommand string
 	DefaultAppFilePath string
+	DefaultAppPath     string
 	BindPort           string
 	Manifest           common.BuildManifest
 }
@@ -38,6 +39,7 @@ func (gen *DotnetCoreStartupScriptGenerator) GenerateEntrypointScript(scriptBuil
 	scriptBuilder.WriteString("readonly appPath=\"" + gen.RunFromPath + "\"\n")
 	scriptBuilder.WriteString("userStartUpCommand=\"" + gen.UserStartupCommand + "\"\n")
 	scriptBuilder.WriteString("startUpCommand=\"\"\n")
+	scriptBuilder.WriteString("readonly defaultAppDir=\"" + gen.DefaultAppPath + "\"\n")
 	scriptBuilder.WriteString("readonly defaultAppFileDir=\"" + defaultAppFileDir + "\"\n")
 	scriptBuilder.WriteString("readonly defaultAppFilePath=\"" + gen.DefaultAppFilePath + "\"\n")
 
@@ -86,6 +88,7 @@ func (gen *DotnetCoreStartupScriptGenerator) GenerateEntrypointScript(scriptBuil
 
 	scriptBuilder.WriteString("if [ -z \"$startUpCommand\" ]; then\n")
 	scriptBuilder.WriteString("  if [ -f \"$defaultAppFilePath\" ]; then\n")
+	scriptBuilder.WriteString("  elif [ -f \"$defaultAppFilePath\" ]; then\n")
 	scriptBuilder.WriteString("    cd \"$defaultAppFileDir\"\n")
 	scriptBuilder.WriteString("    startUpCommand=\"dotnet '$defaultAppFilePath'\"\n")
 	scriptBuilder.WriteString("  else\n")

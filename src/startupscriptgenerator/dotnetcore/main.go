@@ -37,6 +37,11 @@ func main() {
 		"",
 		"[Optional] Path to a default dll that will be executed if the entrypoint is not found. "+
 			"Ex: '/opt/startup/aspnetcoredefaultapp.dll'")
+	defaultAppPathPtr := flag.String(
+		"defaultAppPath",
+		"",
+		"[Optional] Path to a folder containing the default app. "+
+			"Ex: '/opt/defaultapp'")
 	flag.Parse()
 
 	fullAppPath := ""
@@ -57,9 +62,9 @@ func main() {
 		fullDefaultAppFilePath = common.GetValidatedFullPath(*defaultAppFilePathPtr)
 	}
 
-	if fullDefaultAppFilePath != "" && !common.FileExists(fullDefaultAppFilePath) {
-		fmt.Printf("Supplied default app file path '%s' does not exist", fullDefaultAppFilePath)
-		return
+	fullDefaultAppPath := ""
+	if *defaultAppPathPtr != "" {
+		fullDefaultAppPath = common.GetValidatedFullPath(*defaultAppPathPtr)
 	}
 
 	scriptBuilder := strings.Builder{}
@@ -91,6 +96,7 @@ func main() {
 		BindPort:           *bindPortPtr,
 		UserStartupCommand: *userStartupCommandPtr,
 		DefaultAppFilePath: fullDefaultAppFilePath,
+		DefaultAppPath:     fullDefaultAppPath,
 		Manifest:           buildManifest,
 	}
 

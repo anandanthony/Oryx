@@ -17,6 +17,18 @@ func PathExists(path string) bool {
 	return !os.IsNotExist(err)
 }
 
+func DirExists(path string) bool {
+	fi, err := os.Stat(path)
+	if os.IsNotExist(err) {
+		return false
+	}
+
+	if err != nil {
+		return false
+	}
+	return fi.IsDir()
+}
+
 func FileExists(path string) bool {
 	fi, err := os.Stat(path)
 	if os.IsNotExist(err) {
