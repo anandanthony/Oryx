@@ -70,7 +70,7 @@ then
 	echo
 	echo "Copying production dependencies from '$prodModulesDirName' to '$SOURCE_DIR'..."
 	START_TIME=$SECONDS
-	rsync -rtE --links node_modules "$SOURCE_DIR"
+	rsync -rE --links node_modules "$SOURCE_DIR"
 	ELAPSED_TIME=$(($SECONDS - $START_TIME))
 	echo "Done in $ELAPSED_TIME sec(s)."
 fi

@@ -55,7 +55,7 @@ then
 	{{ for excludedDir in DirectoriesToExcludeFromCopyToIntermediateDir }}
 	excludedDirectories+=" --exclude {{ excludedDir }}"
 	{{ end }}
-	rsync --delete -rt $excludedDirectories . "$INTERMEDIATE_DIR"
+	rsync --delete -r $excludedDirectories . "$INTERMEDIATE_DIR"
 	ELAPSED_TIME=$(($SECONDS - $START_TIME))
 	echo "Done in $ELAPSED_TIME sec(s)."
 	SOURCE_DIR="$INTERMEDIATE_DIR"
