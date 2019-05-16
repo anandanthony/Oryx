@@ -23,7 +23,14 @@ else
     $buildRuntimeImagesScript "$@"
 fi
 
+if [ -n "$2" ]
+then
+    testCaseFilter="--filter $2"
+fi
+
 echo
-echo "Building and running tests..."
+echo "Running runtime tests with filter '$testCaseFilter'..."
+echo
+
 cd "$TESTS_SRC_DIR/$testProjectName"
-dotnet test --test-adapter-path:. --logger:"xunit;LogFilePath=$ARTIFACTS_DIR\testResults\\$testProjectName.xml" -c $BUILD_CONFIGURATION
+dotnet test $testCaseFilter --test-adapter-path:. --logger:"xunit;LogFilePath=$ARTIFACTS_DIR\testResults\\$testProjectName.xml" -c $BUILD_CONFIGURATION

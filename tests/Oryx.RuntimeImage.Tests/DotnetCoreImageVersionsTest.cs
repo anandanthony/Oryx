@@ -10,6 +10,7 @@ using Xunit.Abstractions;
 
 namespace Microsoft.Oryx.RuntimeImage.Tests
 {
+    [Trait("category", "dotnetcore")]
     public class DotnetCoreImageVersionsTest : TestBase
     {
         public DotnetCoreImageVersionsTest(ITestOutputHelper output) : base(output)

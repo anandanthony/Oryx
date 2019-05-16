@@ -27,6 +27,7 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
         }
     }
 
+    [Trait("category", "node")]
     public class NodeRuntimeImageOtherTests : NodeImagesTestBase
     {
         public NodeRuntimeImageOtherTests(ITestOutputHelper output, TestTempDirTestFixture testTempDirTestFixture)
@@ -214,6 +215,7 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
         }
     }
 
+    [Trait("category", "node")]
     public class NodeRuntimeImageCanRunWhenAppInsightsModuleNotFound : NodeImagesTestBase
     {
         public NodeRuntimeImageCanRunWhenAppInsightsModuleNotFound(ITestOutputHelper output, TestTempDirTestFixture testTempDirTestFixture)
@@ -280,6 +282,7 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
         }
     }
 
+    [Trait("category", "node")]
     public class NodeRuntimeImageContainsRequiredPrograms : NodeImagesTestBase
     {
         public NodeRuntimeImageContainsRequiredPrograms(ITestOutputHelper output, TestTempDirTestFixture testTempDirTestFixture)
@@ -308,6 +311,7 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
         }
     }
 
+    [Trait("category", "node")]
     public class NodeRuntimeImageRunAppUsingConfigYml : NodeImagesTestBase
     {
         public NodeRuntimeImageRunAppUsingConfigYml(ITestOutputHelper output, TestTempDirTestFixture testTempDirTestFixture)
@@ -352,6 +356,7 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
         }
     }
 
+    [Trait("category", "node")]
     public class NodeRuntimeImageRunAppUsingProcessJson : NodeImagesTestBase
     {
         public NodeRuntimeImageRunAppUsingProcessJson(ITestOutputHelper output, TestTempDirTestFixture testTempDirTestFixture)
@@ -397,6 +402,7 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
         }
     }
 
+    [Trait("category", "node")]
     public class NodeRuntimeImageRunAppUsingConfigJs : NodeImagesTestBase
     {
         public NodeRuntimeImageRunAppUsingConfigJs(ITestOutputHelper output, TestTempDirTestFixture testTempDirTestFixture)
@@ -442,6 +448,7 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
         }
     }
 
+    [Trait("category", "node")]
     public class NodeRuntimeImageContainsVersionAndCommitInfo : NodeImagesTestBase
     {
         public NodeRuntimeImageContainsVersionAndCommitInfo(ITestOutputHelper output, TestTempDirTestFixture testTempDirTestFixture)

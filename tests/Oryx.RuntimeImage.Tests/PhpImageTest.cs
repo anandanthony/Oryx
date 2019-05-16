@@ -13,6 +13,7 @@ using Xunit.Abstractions;
 
 namespace Microsoft.Oryx.RuntimeImage.Tests
 {
+    [Trait("category", "php")]
     public class PhpImageTest : TestBase
     {
         public PhpImageTest(ITestOutputHelper output) : base(output)

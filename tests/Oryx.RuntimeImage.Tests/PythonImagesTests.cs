@@ -10,6 +10,7 @@ using Xunit.Abstractions;
 
 namespace Microsoft.Oryx.RuntimeImage.Tests
 {
+    [Trait("category", "python")]
     public class PythonImagesTest : TestBase
     {
         public PythonImagesTest(ITestOutputHelper output) : base(output)
