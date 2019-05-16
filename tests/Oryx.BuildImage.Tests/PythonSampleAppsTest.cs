@@ -31,7 +31,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir}")
@@ -63,7 +63,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir} -p packagedir={PackagesDirectory}")
@@ -97,7 +97,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "shapely-flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir} -l python --language-version {version}")
@@ -126,7 +126,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = "/tmp/app-output";
             var subDir = Guid.NewGuid();
             var script = new ShellScriptBuilder()
@@ -162,7 +162,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var nestedOutputDir = "/tmp/app-output/subdir1";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {nestedOutputDir}")
@@ -192,7 +192,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir}")
                 .AddDirectoryExistsCheck($"{appDir}/pythonenv3.7")
@@ -221,7 +221,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = $"{appDir}/output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir}")
@@ -251,7 +251,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 // Pre-populate the output directory with content
@@ -292,7 +292,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
             // Arrange
             var langVersion = PythonVersions.Python37Version;
             var appName = "python2-flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var generatedScript = "/tmp/build.sh";
             var appOutputDir = "/tmp/app-output";
             var tempDir = "/tmp/" + Guid.NewGuid();
@@ -327,7 +327,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = $"{appDir}/output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir} -l python --language-version {Settings.Python36Version}")
@@ -359,7 +359,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var generatedScript = "/tmp/build.sh";
             var appOutputDir = "/tmp/app-output";
             var tempDir = "/tmp/" + Guid.NewGuid();
@@ -395,7 +395,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var generatedScript = "/tmp/build.sh";
             var appOutputDir = "/tmp/app-output";
             var tempDir = "/tmp/" + Guid.NewGuid();
@@ -434,7 +434,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
             // Arrange
             var langVersion = Settings.Python27Version;
             var appName = "python2-flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var generatedScript = "/tmp/build.sh";
             var appOutputDir = "/tmp/app-output";
             var tempDir = "/tmp/" + Guid.NewGuid();
@@ -469,7 +469,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appIntermediateDir = "/tmp/app-intermediate";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
@@ -501,7 +501,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
             // Arrange
             var virtualEnvironmentName = "pythonenv3.7";
             var appName = "flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -i /tmp/int -o {appOutputDir}")
@@ -538,7 +538,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
             // Arrange
             var virtualEnvironmentName = "myenv";
             var appName = "flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand(
@@ -575,7 +575,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
             // Arrange
             var virtualEnvironmentName = "myenv";
             var appName = "flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand(
@@ -612,7 +612,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "flask-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand(
@@ -648,7 +648,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "django-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = "/tmp/app-output";
             var scriptBuilder = new ShellScriptBuilder();
             if (string.IsNullOrEmpty(disableCollectStatic))
@@ -690,7 +690,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "django-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddCommand($"export {EnvironmentSettingsKeys.DisableCollectStatic}={disableCollectStatic}")
@@ -752,7 +752,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
                     workingDirectory: null,
                     waitTimeForExit: null);
             }
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir}")
@@ -810,7 +810,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
                     workingDirectory: null,
                     waitTimeForExit: null);
             }
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir}")
@@ -873,7 +873,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
                     workingDirectory: null,
                     waitTimeForExit: null);
             }
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir}")
@@ -942,7 +942,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
                     workingDirectory: null,
                     waitTimeForExit: null);
             }
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir}")
@@ -993,7 +993,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
                 sw.WriteLine("POST_BUILD_COMMAND=\"echo from post-build command\"");
             }
 
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o /tmp/output")
                 .ToString();
@@ -1027,7 +1027,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "django-realworld-example-app";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand(
@@ -1093,7 +1093,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
                     workingDirectory: null,
                     waitTimeForExit: null);
             }
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/python/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir} -l python --language-version {version}")

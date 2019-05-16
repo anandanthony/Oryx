@@ -32,7 +32,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var appName = "NetCoreApp11WebApp";
             var appOutputDir = "/tmp/NetCoreApp11WebApp-output";
             var script = new ShellScriptBuilder()
-                .AddBuildCommand($"{_containerSamplesDir}/{appName} -o {appOutputDir}")
+                .AddBuildCommand($"{_containerSamplesDir}/DotNetCore/{appName} -o {appOutputDir}")
                 .AddFileExistsCheck($"{appOutputDir}/{appName}.dll")
                 .AddFileExistsCheck($"{appOutputDir}/{ScriptGenerator.Constants.ManifestFileName}")
                 .ToString();
@@ -61,7 +61,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "NetCoreApp11WebApp";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/DotNetCore/{appName}";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand(appDir)
                 .AddFileExistsCheck($"{appDir}/{DotnetCoreConstants.OryxOutputPublishDirectory}/{appName}.dll")
@@ -93,7 +93,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var appName = "NetCoreApp21WebApp";
             var appOutputDir = "/tmp/NetCoreApp21WebApp-output";
             var script = new ShellScriptBuilder()
-                .AddBuildCommand($"{_containerSamplesDir}/{appName} -o {appOutputDir}")
+                .AddBuildCommand($"{_containerSamplesDir}/DotNetCore/{appName} -o {appOutputDir}")
                 .AddFileExistsCheck($"{appOutputDir}/{appName}.dll")
                 .ToString();
 
@@ -121,7 +121,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "NetCoreApp21WebApp";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/DotNetCore/{appName}";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand(appDir)
                 .AddFileExistsCheck($"{appDir}/{DotnetCoreConstants.OryxOutputPublishDirectory}/{appName}.dll")
@@ -153,7 +153,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var appName = "NetCoreApp22WebApp";
             var appOutputDir = "/tmp/NetCoreApp22WebApp-output";
             var script = new ShellScriptBuilder()
-                .AddBuildCommand($"{_containerSamplesDir}/{appName} -o {appOutputDir}")
+                .AddBuildCommand($"{_containerSamplesDir}/DotNetCore/{appName} -o {appOutputDir}")
                 .AddFileExistsCheck($"{appOutputDir}/{appName}.dll")
                 .ToString();
 
@@ -183,7 +183,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var appName = "NetCoreApp30.WebApp";
             var appOutputDir = "/tmp/NetCoreApp30WebApp-output";
             var script = new ShellScriptBuilder()
-                .AddBuildCommand($"{_containerSamplesDir}/{appName} -o {appOutputDir}")
+                .AddBuildCommand($"{_containerSamplesDir}/DotNetCore/{appName} -o {appOutputDir}")
                 .AddFileExistsCheck($"{appOutputDir}/{appName}.dll")
                 .ToString();
 
@@ -213,7 +213,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "NetCoreApp22WebApp";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/DotNetCore/{appName}";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir}")
                 .AddFileExistsCheck($"{appDir}/{DotnetCoreConstants.OryxOutputPublishDirectory}/{appName}.dll")
@@ -584,7 +584,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
             // Arrange
             var appName = "dotnetreact";
             var hostDir = Path.Combine(_containerSamplesDir, "multilanguage", appName);
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/DotNetCore/{appName}";
             var appOutputDir = $"{appDir}/myoutputdir";
             var buildScript = new ShellScriptBuilder()
                 .AddCommand("export ENABLE_MULTIPLATFORM_BUILD=true")
@@ -621,7 +621,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
             var script = new ShellScriptBuilder()
                 .CreateDirectory($"{appOutputDir}")
                 .AddCommand($"echo > {appOutputDir}/{extraFile}")
-                .AddBuildCommand($"{_containerSamplesDir}/{appName} -o {appOutputDir}")
+                .AddBuildCommand($"{_containerSamplesDir}/DotNetCore/{appName} -o {appOutputDir}")
                 .AddFileExistsCheck($"{appOutputDir}/{appName}.dll")
                 .AddFileExistsCheck($"{appOutputDir}/{extraFile}")
                 .ToString();

@@ -25,7 +25,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "webfrontend";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var appOutputDir = "/tmp/webfrontend-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -i /tmp/int -o {appOutputDir}")
@@ -54,7 +54,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "webfrontend";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var appOutputDir = "/tmp/webfrontend-output";
             var subDir = Guid.NewGuid();
             var script = new ShellScriptBuilder()
@@ -90,7 +90,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "webfrontend";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var nestedOutputDir = "/tmp/output/subdir1";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -i /tmp/int -o {nestedOutputDir}")
@@ -119,7 +119,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "webfrontend";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var nestedOutputDir = "/tmp/output";
             var script = new ShellScriptBuilder()
                 .AddCommand("printenv")
@@ -158,7 +158,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "webfrontend";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var spcifyNodeVersionCommand = "-l nodejs --language-version=" + version;
             var nestedOutputDir = "/tmp/output";
             var script = new ShellScriptBuilder()
@@ -199,7 +199,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "webfrontend";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var nestedOutputDir = "/tmp/output";
             var spcifyNodeVersionCommand = "-l nodejs --language-version=" + version;
             var script = new ShellScriptBuilder()
@@ -239,7 +239,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "webfrontend";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var nestedOutputDir = "/tmp/output";
             var spcifyNodeVersionCommand = "-l nodejs --language-version=" + version;
             var script = new ShellScriptBuilder()
@@ -272,7 +272,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "webfrontend";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var appOutputDir = "/tmp/output";
             var script = new ShellScriptBuilder()
                 // Pre-populate the output directory with content
@@ -435,7 +435,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "webfrontend";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var appOutputDir = "/tmp/webfrontend-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -i /tmp/int -o {appOutputDir} -l nodejs --language-version 8.2.1")
@@ -464,7 +464,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "webfrontend";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var appOutputDir = "/tmp/webfrontend-output";
             var generatedScript = "/tmp/build.sh";
             var tempDir = "/tmp/" + Guid.NewGuid();
@@ -498,7 +498,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "webfrontend";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var appOutputDir = "/tmp/webfrontend-output";
             var generatedScript = "/tmp/build.sh";
             var tempDir = "/tmp/" + Guid.NewGuid();
@@ -532,7 +532,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "webfrontend";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var intermediateDir = "/tmp/app-intermediate";
             var appOutputDir = "/tmp/webfrontend-output";
             var script = new ShellScriptBuilder()
@@ -562,7 +562,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "webfrontend";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir}")
                 .AddDirectoryExistsCheck($"{appDir}/node_modules")
@@ -590,7 +590,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "webfrontend";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var appOutputDir = $"{appDir}/output";
             var buildScript = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -i /tmp/int -o {appOutputDir}")
@@ -650,7 +650,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
                     waitTimeForExit: null);
             }
 
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -l nodejs --language-version 6")
                 .ToString();
@@ -686,7 +686,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
 
             // Arrange
             var appName = "webfrontend";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var appOutputDir = "/tmp/webfrontend-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -i /tmp/int -o {appOutputDir} -p compress_node_modules=tar-gz")
@@ -720,7 +720,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
 
             // Arrange
             var appName = "webfrontend";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var appOutputDir = "/tmp/webfrontend-output";
             var buildScript = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -i /tmp/int -o {appOutputDir} -p compress_node_modules=zip")
@@ -753,7 +753,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "webfrontend";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/nodejs/{appName}";
             var appOutputDir = "/tmp/webfrontend-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -i /tmp/int -o {appOutputDir}")

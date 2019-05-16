@@ -22,7 +22,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "twig-example";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/php/{appName}";
             var appOutputDir = "/tmp/app-output";
             var script = new ShellScriptBuilder()
                 .AddBuildCommand($"{appDir} -o {appOutputDir}")
@@ -52,7 +52,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         {
             // Arrange
             var appName = "twig-example";
-            var appDir = $"{_containerSamplesDir}/{appName}";
+            var appDir = $"{_containerSamplesDir}/php/{appName}";
             var script = new ShellScriptBuilder()
                 .AddCommand($"rm {appDir}/composer.json")
                 .AddBuildCommand($"{appDir} --language php --language-version {PhpVersions.Php73Version}")
