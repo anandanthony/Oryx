@@ -64,7 +64,7 @@ namespace Microsoft.Oryx.Tests.Common
             return versions.Select(v => new object[] { v });
         }
 
-        public static IEnumerable<object[]> GetNodeVersions()
+        public static IEnumerable<object[]> GetAllNodeVersions()
         {
             foreach (var version in NodeVersions)
             {
@@ -72,7 +72,7 @@ namespace Microsoft.Oryx.Tests.Common
             }
         }
 
-        public static IEnumerable<object[]> GetPythonVersions()
+        public static IEnumerable<object[]> GetAllPythonVersions()
         {
             foreach (var version in PythonVersions)
             {

@@ -689,7 +689,7 @@ namespace Microsoft.Oryx.Integration.Tests
         }
 
         [Theory]
-        [MemberData(nameof(TestValueGenerator.GetNodeVersions), MemberType = typeof(TestValueGenerator))]
+        [MemberData(nameof(TestValueGenerator.GetAllNodeVersions), MemberType = typeof(TestValueGenerator))]
         public async Task Test_NodeSassExample(string nodeVersion)
         {
             // Arrange
@@ -697,25 +697,32 @@ namespace Microsoft.Oryx.Integration.Tests
             var hostDir = Path.Combine(_hostSamplesDir, "nodejs", appName);
             var volume = DockerVolume.Create(hostDir);
             var appDir = volume.ContainerDir;
-            var script = new ShellScriptBuilder()
-                .AddCommand($"cd {appDir}")
-                .AddCommand($"oryx -appPath {appDir} -bindPort {ContainerPort}")
+            var appOutputDirPath = Directory.CreateDirectory(Path.Combine(_tempRootDir, Guid.NewGuid().ToString("N")))
+                .FullName;
+            var appOutputDirVolume = DockerVolume.Create(appOutputDirPath);
+            var appOutputDir = appOutputDirVolume.ContainerDir;
+            var buildScript = new ShellScriptBuilder()
+                .AddCommand(
+                $"oryx build {appDir} -i /tmp/int -o {appOutputDir} -l nodejs --language-version {nodeVersion}")
+                .ToString();
+            var runScript = new ShellScriptBuilder()
+                .AddCommand($"oryx -appPath {appOutputDir} -bindPort {ContainerPort}")
                 .AddCommand(DefaultStartupFilePath)
                 .ToString();
 
             await EndToEndTestHelper.BuildRunAndAssertAppAsync(
                 appName,
                 _output,
-                volume,
-                "oryx",
-                new[] { "build", appDir, "-l", "nodejs", "--language-version", nodeVersion },
+                new List<DockerVolume> { volume, appOutputDirVolume },
+                "/bin/sh",
+                new[] { "-c", buildScript },
                 $"oryxdevms/node-{nodeVersion}",
                 ContainerPort,
                 "/bin/sh",
                 new[]
                 {
                     "-c",
-                    script
+                    runScript
                 },
                 async (hostPort) =>
                 {

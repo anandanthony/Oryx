@@ -61,6 +61,7 @@ UntagImages "mcr.microsoft.com/oryx/*:20190506.1"
 UntagImages "mcr.microsoft.com/oryx/*:20190506.2"
 UntagImages "mcr.microsoft.com/oryx/*:20190506.3"
 UntagImages "mcr.microsoft.com/oryx/*:20190506.4"
+UntagImages "mcr.microsoft.com/oryx/node-*:20190506.5"
 UntagImages node:4.4.7
 UntagImages node:4.5.0
 UntagImages node:4.8.7

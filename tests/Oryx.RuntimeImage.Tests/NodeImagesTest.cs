@@ -288,7 +288,7 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
         }
 
         [Theory]
-        [MemberData(nameof(TestValueGenerator.GetNodeVersions), MemberType = typeof(TestValueGenerator))]
+        [MemberData(nameof(TestValueGenerator.GetAllNodeVersions), MemberType = typeof(TestValueGenerator))]
         public void NodeImage_Contains_RequiredPrograms(string nodeTag)
         {
             // Arrange & Act
@@ -450,7 +450,7 @@ namespace Microsoft.Oryx.RuntimeImage.Tests
         }
 
         [SkippableTheory]
-        [MemberData(nameof(TestValueGenerator.GetNodeVersions), MemberType = typeof(TestValueGenerator))]
+        [MemberData(nameof(TestValueGenerator.GetAllNodeVersions), MemberType = typeof(TestValueGenerator))]
         public void NodeImage_Contains_VersionAndCommit_Information(string version)
         {
             var agentOS = Environment.GetEnvironmentVariable("AGENT_OS");

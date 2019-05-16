@@ -1124,7 +1124,7 @@ namespace Microsoft.Oryx.BuildImage.Tests
         }
 
         [Theory]
-        [MemberData(nameof(TestValueGenerator.GetPythonVersions), MemberType = typeof(TestValueGenerator))]
+        [MemberData(nameof(TestValueGenerator.GetAllPythonVersions), MemberType = typeof(TestValueGenerator))]
         public void GeneratesScript_AndBuilds_Shapely_With_Python(string version)
         {
             // Arrange

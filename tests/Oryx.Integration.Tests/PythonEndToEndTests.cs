@@ -565,7 +565,7 @@ namespace Microsoft.Oryx.Integration.Tests
         }
 
         [Theory]
-        [MemberData(nameof(TestValueGenerator.GetPythonVersions), MemberType = typeof(TestValueGenerator))]
+        [MemberData(nameof(TestValueGenerator.GetAllPythonVersions), MemberType = typeof(TestValueGenerator))]
         public async Task CanBuildAndRun_ShapelyFlaskApp_UsingVirtualEnv(string pythonVersion)
         {
             // Arrange
@@ -602,7 +602,7 @@ namespace Microsoft.Oryx.Integration.Tests
         }
 
         [Theory]
-        [MemberData(nameof(TestValueGenerator.GetPythonVersions), MemberType = typeof(TestValueGenerator))]
+        [MemberData(nameof(TestValueGenerator.GetAllPythonVersions), MemberType = typeof(TestValueGenerator))]
         public async Task CanBuildAndRun_ShapelyFlaskApp_PackageDir(string pythonVersion)
         {
             // Arrange
