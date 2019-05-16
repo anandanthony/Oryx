@@ -3,7 +3,7 @@ parameters:
   acrName: oryxdevmcr.azurecr.io
 
 - script: |
-    if [ -n "$(ImageFilter)" ] && [ "$(Enabled)" == "true" ]
+    if [ -n $ImageFilter ] && [ "$(Enabled)" == "true" ]
     then
       echo "Invalid configuration."
       echo "Variable 'ImageFilter' needs to have value to run this build."
