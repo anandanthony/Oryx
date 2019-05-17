@@ -30,5 +30,7 @@ namespace Microsoft.Oryx.BuildScriptGenerator.DotNetCore
         public const string ProjectReferenceXPathExpression = "/Project/ItemGroup/PackageReference";
         public const string AssemblyNameXPathExpression = "/Project/PropertyGroup/AssemblyName";
         public const string TargetFrameworkXPathExpression = "/Project/PropertyGroup/TargetFramework";
+
+        public const string DefaultMSBuildConfiguration = "Release";
     }
 }
