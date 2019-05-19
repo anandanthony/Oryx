@@ -1094,10 +1094,10 @@ namespace Microsoft.Oryx.Integration.Tests
                .ToString();
             var runtimeImageScript = new ShellScriptBuilder()
                 .AddCommand($"mkdir -p {defaultApp}")
-                .AddCommand($"cp -rf {appOutputDir} {defaultApp}")
+                .AddCommand($"cp -rf {appOutputDir}/* {defaultApp}")
                 .AddCommand($"mkdir -p {doesNotContainApp}")
                 .AddCommand(
-                $"oryx -appPath {doesNotContainApp} -defaultAppPath {defaultApp}/{NetCoreApp22WebApp}.dll " +
+                $"oryx -appPath {doesNotContainApp} -defaultAppFilePath {defaultApp}/{NetCoreApp22WebApp}.dll " +
                 $"-bindPort {ContainerPort}")
                 .AddCommand(DefaultStartupFilePath)
                 .ToString();
